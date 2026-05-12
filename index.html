@@ -18,7 +18,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
 body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14px;line-height:1.5;background:var(--bg);overflow:hidden;}
-
+ 
 .sidebar{width:var(--sw);height:100vh;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0;z-index:300;transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .sb-logo{padding:28px 22px 20px;border-bottom:1px solid rgba(255,255,255,.07);}
 .sb-name{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#F3F1EB;letter-spacing:-.01em;line-height:1.2;}
@@ -36,7 +36,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
 .sbpb{height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
 .sbpf{height:100%;background:var(--accent);border-radius:2px;transition:width .6s ease;}
 .sb-sync{font-size:10px;color:rgba(255,255,255,.18);margin-top:8px;}
-
+ 
 .main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0;}
 .topbar{display:none;align-items:center;gap:14px;padding:0 16px;height:var(--th);flex-shrink:0;background:var(--sidebar);border-bottom:1px solid rgba(255,255,255,.07);}
 .hbg{width:36px;height:36px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:6px;border-radius:6px;flex-shrink:0;}
@@ -50,7 +50,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
 .content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 .overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);}
 .overlay.show{display:block;}
-
+ 
 .section{display:none;animation:fu .22s ease both;}
 .section.active{display:block;}
 @keyframes fu{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
@@ -58,37 +58,37 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
 .stitle{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.0;}
 .ssub{font-size:13px;color:var(--fg2);margin-top:6px;}
 .sheader{margin-bottom:28px;}
-
+ 
 .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px;}
 .card.al{border-left:3px solid var(--accent);}
 .ctitle{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);margin-bottom:12px;}
-
+ 
 .dr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border2);font-size:13px;gap:10px;}
 .dr:last-child{border-bottom:none;}
 .dr.bold{font-weight:600;}
 .dr.muted{color:var(--fg2);font-size:12px;}
 .dr.tot{font-weight:600;border-top:1px solid var(--border);border-bottom:none;padding-top:12px;margin-top:4px;}
 .drv{font-weight:500;white-space:nowrap;flex-shrink:0;}
-
+ 
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
 .sbox{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 12px 12px;text-align:center;}
 .sv{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.1;}
 .sl{font-size:10px;color:var(--fg3);margin-top:3px;line-height:1.3;}
-
+ 
 .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0;}
 .bok{background:var(--ok-bg);color:var(--ok);}
 .bwarn{background:var(--warn-bg);color:var(--warn);}
 .bdanger{background:var(--danger-bg);color:var(--danger);}
 .binfo{background:var(--info-bg);color:var(--info);}
-
+ 
 .alert{padding:11px 14px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:13px;line-height:1.5;}
 .adanger{background:var(--danger-bg);border-left:3px solid var(--danger);color:#7A1F1F;}
 .awarn{background:var(--warn-bg);border-left:3px solid var(--warn);color:#6B4010;}
 .ainfo{background:var(--info-bg);border-left:3px solid var(--info);color:#1A4A80;}
 .aok{background:var(--ok-bg);border-left:3px solid var(--ok);color:#0B5438;}
-
+ 
 .pw{margin-bottom:10px;}
 .plbl{display:flex;justify-content:space-between;font-size:11px;color:var(--fg2);margin-bottom:4px;}
 .pb{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
@@ -96,7 +96,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
 .pf-a{background:var(--accent);}
 .pf-b{background:var(--info);}
 .pf-g{background:var(--ok);}
-
+ 
 .chk{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2);cursor:pointer;user-select:none;}
 .chk:last-child{border-bottom:none;}
 .chk:active{background:#F8F6F0;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:6px;}
@@ -111,20 +111,20 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
 .cnote{font-size:11px;color:var(--fg3);margin-top:2px;}
 .cpr{font-size:13px;font-weight:500;flex-shrink:0;margin-top:1px;}
 .cpr.done{color:var(--fg3);text-decoration:line-through;}
-
+ 
 .rtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 .rtab{padding:5px 13px;border:1px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;background:#fff;color:var(--fg2);font-family:'DM Sans',sans-serif;transition:all .15s;}
 .rtab.active{background:var(--fg);color:#fff;border-color:var(--fg);font-weight:600;}
-
+ 
 .div{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);margin:20px 0 8px;display:flex;align-items:center;gap:10px;}
 .div::after{content:'';flex:1;height:1px;background:var(--border);}
 .dcnt{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--fg3);}
-
+ 
 .hito{background:var(--fg);border-radius:12px;padding:20px 22px;margin-bottom:12px;}
 .heye{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:4px;}
 .htitle{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;color:#F3F1EB;letter-spacing:-.01em;}
 .hsub{font-size:12px;color:rgba(255,255,255,.32);margin-top:3px;}
-
+ 
 @media(max-width:740px){
   body{display:block;overflow:hidden;}
   .sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%);}
@@ -149,7 +149,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
 </style>
 </head>
 <body>
-
+ 
 <div class="sidebar" id="sidebar">
   <div class="sb-logo">
     <div class="sb-name">Don Pelayo</div>
@@ -234,16 +234,16 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
     </div>
   </div>
 </div>
-
+ 
 <div class="overlay" id="overlay"></div>
-
+ 
 <div class="main">
   <div class="topbar" id="topbar">
     <button class="hbg" id="hbg" type="button" aria-label="Menú"><span></span><span></span><span></span></button>
     <span class="tbtitle" id="tbt">Inicio</span>
   </div>
   <div class="content" id="content">
-
+ 
     <!-- INICIO -->
     <div class="section active" id="sec-inicio">
       <div class="sheader">
@@ -287,7 +287,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
         <div class="dr"><span>Deudas a cancelar el día de escrituras</span><span class="drv" style="color:var(--danger)">~27.372 €</span></div>
       </div>
     </div>
-
+ 
     <!-- VIVIENDA -->
     <div class="section" id="sec-vivienda">
       <div class="sheader">
@@ -326,7 +326,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
         <div class="dr"><span><span class="badge bdanger" style="margin-right:6px">Bloqueado</span>Préstamo 0% CLM — requiere 2 años empadronado en CLM</span><span class="drv" style="color:var(--fg3)">Hasta 48.000 €</span></div>
       </div>
     </div>
-
+ 
     <!-- FINANCIACIÓN -->
     <div class="section" id="sec-financiacion">
       <div class="sheader">
@@ -373,7 +373,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
         <div class="dr tot bold"><span>TOTAL necesario</span><span class="drv" style="color:var(--info)">~124.548 €</span></div>
       </div>
     </div>
-
+ 
     <!-- COMPRAS -->
     <div class="section" id="sec-compras">
       <div class="sheader">
@@ -387,7 +387,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
       <div class="rtabs" id="rtabs"></div>
       <div class="card" id="shlist" style="padding:8px 16px;"></div>
     </div>
-
+ 
     <!-- PLANNING -->
     <div class="section" id="sec-planning">
       <div class="sheader">
@@ -398,7 +398,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
       <div class="alert adanger">🔴 Estamos en <strong>mayo 2026</strong>. La entrega es en semanas. Cada tarea urgente sin completar bloquea el proceso.</div>
       <div id="plancont"></div>
     </div>
-
+ 
     <!-- TRÁMITES -->
     <div class="section" id="sec-tramites">
       <div class="sheader">
@@ -409,14 +409,14 @@ body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14p
       <div class="alert awarn">🔒 Suministros y trámites administrativos <strong>bloqueados</strong> hasta firma de escrituras. Prepara la documentación con antelación.</div>
       <div id="tramcont"></div>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 <script>
 const SK='dp-v5';
 let ST={},curRoom='Cocina',curSec='inicio';
-
+ 
 const SHOP=[
   {id:'s1',room:'Salón',d:'Sofá (994.405.85)',store:'IKEA',p:799},
   {id:'s2',room:'Salón',d:'Mueble TV (794.377.63)',store:'IKEA',p:370},
@@ -461,7 +461,7 @@ const TSOP=14169;
 const ROOMS=['Cocina','Salón','Habitación','Sala/Despacho','Baño','Otros'];
 const RI={Salón:'🛋️',Habitación:'🛏️',Cocina:'🍳','Sala/Despacho':'💻',Baño:'🚿',Otros:'📦'};
 const SC={IKEA:'#0051A2',MediaMarkt:'#CC0000','Leroy Merlin':'#3d7a00'};
-
+ 
 const TASKS=[
   {id:'t1',g:'urgente',l:'Pedir muebles cocina IKEA (2.510 €)',n:'⏱ Lead time 8–12 semanas — pedir esta semana'},
   {id:'t2',g:'urgente',l:'Pedir armario dormitorio IKEA (1.099 €)',n:'⏱ Lead time 8–12 semanas — pedir esta semana'},
@@ -515,7 +515,7 @@ const TRGS=[
   {id:'sumi', label:'⚡ Suministros',block:true},
   {id:'adm',  label:'📝 Administrativo',block:true},
 ];
-
+ 
 // Storage (Claude artifact = shared; standalone = localStorage)
 async function sGet(k){
   if(typeof window.storage!=='undefined'){try{const r=await window.storage.get(k,true);if(r)return r.value;}catch(e){}}
@@ -525,14 +525,14 @@ async function sSet(k,v){
   if(typeof window.storage!=='undefined'){try{await window.storage.set(k,v,true);}catch(e){}}
   try{localStorage.setItem(k,v);}catch(e){}
 }
-
+ 
 async function load(){
   try{const r=await sGet(SK);if(r)ST=JSON.parse(r);}catch(e){ST={};}
   render();
   const s=document.getElementById('sbsync');
   if(s)s.textContent='✓ Listo · '+(typeof window.storage!=='undefined'?'compartido en tiempo real':'guardado localmente');
 }
-
+ 
 let saveT=null;
 function save(){
   clearTimeout(saveT);
@@ -545,7 +545,7 @@ function save(){
     }catch(e){}
   },350);
 }
-
+ 
 function toggle(key){
   ST[key]=!ST[key];
   save();
@@ -555,7 +555,7 @@ function toggle(key){
   if(key.startsWith('t_'))renderPlan();
   if(key.startsWith('tr_'))renderTram();
 }
-
+ 
 // Nav
 const STIT={inicio:'Inicio',vivienda:'Vivienda',financiacion:'Financiación',compras:'Compras',planning:'Planning',tramites:'Trámites'};
 function gotoSec(sec){
@@ -575,7 +575,7 @@ function gotoSec(sec){
 let sbOpen=false;
 function toggleSb(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('open',sbOpen);document.getElementById('hbg').classList.toggle('open',sbOpen);document.getElementById('overlay').classList.toggle('show',sbOpen);}
 function closeSb(){sbOpen=false;document.getElementById('sidebar').classList.remove('open');document.getElementById('hbg').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-
+ 
 // Helpers
 const eu=n=>n.toLocaleString('es-ES',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';
 const pct=(a,b)=>b>0?Math.min(100,Math.round(a/b*100)):0;
@@ -583,7 +583,7 @@ const $=id=>document.getElementById(id);
 function sbox(v,l,c){return`<div class="sbox"><div class="sv" style="color:${c||'var(--fg)'}">${v}</div><div class="sl">${l}</div></div>`;}
 function shopSpent(){return SHOP.filter(i=>ST['s_'+i.id]).reduce((a,i)=>a+i.p,0);}
 function urgPend(){return TASKS.filter(t=>t.g==='urgente'&&!ST['t_'+t.id]).length;}
-
+ 
 function renderStats(){
   const td=TASKS.filter(t=>ST['t_'+t.id]).length,tt=TASKS.length;
   const sd=SHOP.filter(i=>ST['s_'+i.id]).length,ss=SHOP.length;
@@ -607,13 +607,13 @@ function renderStats(){
   const shpct=$('shpct');if(shpct)shpct.textContent=spp+'%';
   const shpb=$('shpb');if(shpb)shpb.style.width=spp+'%';
 }
-
+ 
 function renderInicio(){
   const u=urgPend(),a=$('inicio-alert');
   if(!a)return;
   a.innerHTML=u>0?`<div class="alert adanger">🚨 <strong>${u} tarea${u>1?'s':''} urgente${u>1?'s':''} pendiente${u>1?'s':''}.</strong> Los muebles IKEA con lead time largo deben pedirse esta semana.</div>`:`<div class="alert aok">✅ <strong>¡Sin urgencias pendientes!</strong> El proyecto avanza correctamente.</div>`;
 }
-
+ 
 function renderShop(){
   renderStats();
   const rt=$('rtabs');
@@ -632,7 +632,7 @@ function renderShop(){
   }).join('');
 }
 function setRoom(r){curRoom=r;renderShop();}
-
+ 
 function renderPlan(){
   const c=$('plancont');if(!c)return;
   c.innerHTML=TGS.map(g=>{
@@ -645,7 +645,7 @@ function renderPlan(){
     return`<div class="div" style="color:${g.ac}">${g.label}<span class="dcnt" style="margin-left:8px">${dn}/${its.length}</span></div>${wrap}`;
   }).join('');
 }
-
+ 
 function renderTram(){
   const c=$('tramcont');if(!c)return;
   const allT=TRAM.length,dnT=TRAM.filter(t=>ST['tr_'+t.id]).length;
@@ -661,9 +661,9 @@ function renderTram(){
   }).join('');
   c.innerHTML=html;
 }
-
+ 
 function render(){renderStats();renderInicio();renderShop();renderPlan();renderTram();}
-
+ 
 // Init — event listeners robustos para móvil
 window.addEventListener('DOMContentLoaded',function(){
   // Nav items click/touch
@@ -689,3 +689,4 @@ window.addEventListener('DOMContentLoaded',function(){
 </script>
 </body>
 </html>
+ 
