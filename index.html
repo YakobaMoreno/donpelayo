@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Don Pelayo · Proyecto Vivienda</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F1EB;--bg2:#fff;--fg:#131210;--fg2:#6A6860;--fg3:#B2AFA7;
+  --accent:#C4853A;--border:#E3DFDA;--border2:#EDEBE6;
+  --ok:#1A9B71;--ok-bg:#E0F5ED;
+  --warn:#C97D28;--warn-bg:#FBF0DE;
+  --danger:#C03A3A;--danger-bg:#FBECEC;
+  --info:#2A6DB5;--info-bg:#E4EEF9;
+  --sidebar:#0F0E0C;--sw:252px;--th:54px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;color:var(--fg);display:flex;font-size:14px;line-height:1.5;background:var(--bg);overflow:hidden;}
+
+.sidebar{width:var(--sw);height:100vh;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0;z-index:300;transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.sb-logo{padding:28px 22px 20px;border-bottom:1px solid rgba(255,255,255,.07);}
+.sb-name{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:#F3F1EB;letter-spacing:-.01em;line-height:1.2;}
+.sb-sub{font-size:11px;color:rgba(255,255,255,.28);margin-top:3px;}
+.sb-tag{display:inline-block;margin-top:10px;padding:3px 9px;border-radius:5px;background:rgba(196,133,58,.2);color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.04em;}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto;}
+.nav-item{display:flex;align-items:center;gap:11px;padding:11px 22px;cursor:pointer;border-left:2px solid transparent;color:rgba(255,255,255,.3);font-size:13px;transition:all .16s;user-select:none;}
+.nav-item:hover{color:rgba(255,255,255,.72);background:rgba(255,255,255,.04);}
+.nav-item.active{color:#F3F1EB;border-left-color:var(--accent);background:rgba(255,255,255,.07);font-weight:600;}
+.nav-icon{font-size:15px;width:22px;text-align:center;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.nav-badge{background:var(--danger);color:#fff;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;margin-left:auto;}
+.sb-footer{padding:16px 22px;border-top:1px solid rgba(255,255,255,.07);}
+.sbp{margin-bottom:9px;}
+.sbpl{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.sbpb{height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
+.sbpf{height:100%;background:var(--accent);border-radius:2px;transition:width .6s ease;}
+.sb-sync{font-size:10px;color:rgba(255,255,255,.18);margin-top:8px;}
+
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;min-width:0;}
+.topbar{display:none;align-items:center;gap:14px;padding:0 16px;height:var(--th);flex-shrink:0;background:var(--sidebar);border-bottom:1px solid rgba(255,255,255,.07);}
+.hbg{width:36px;height:36px;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:6px;border-radius:6px;flex-shrink:0;}
+.hbg span{display:block;height:1.5px;background:#F3F1EB;border-radius:2px;transition:transform .25s,opacity .2s;}
+.hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.hbg.open span:nth-child(2){opacity:0;}
+.hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.tbtitle{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#F3F1EB;}
+.content{flex:1;overflow-y:auto;padding:34px 34px 60px;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.55);}
+.overlay.show{display:block;}
+
+.section{display:none;animation:fu .22s ease both;}
+.section.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:7px;}
+.stitle{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.0;}
+.ssub{font-size:13px;color:var(--fg2);margin-top:6px;}
+.sheader{margin-bottom:28px;}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:12px;}
+.card.al{border-left:3px solid var(--accent);}
+.ctitle{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);margin-bottom:12px;}
+
+.dr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border2);font-size:13px;gap:10px;}
+.dr:last-child{border-bottom:none;}
+.dr.bold{font-weight:600;}
+.dr.muted{color:var(--fg2);font-size:12px;}
+.dr.tot{font-weight:600;border-top:1px solid var(--border);border-bottom:none;padding-top:12px;margin-top:4px;}
+.drv{font-weight:500;white-space:nowrap;flex-shrink:0;}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.sbox{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 12px 12px;text-align:center;}
+.sv{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.1;}
+.sl{font-size:10px;color:var(--fg3);margin-top:3px;line-height:1.3;}
+
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0;}
+.bok{background:var(--ok-bg);color:var(--ok);}
+.bwarn{background:var(--warn-bg);color:var(--warn);}
+.bdanger{background:var(--danger-bg);color:var(--danger);}
+.binfo{background:var(--info-bg);color:var(--info);}
+
+.alert{padding:11px 14px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:13px;line-height:1.5;}
+.adanger{background:var(--danger-bg);border-left:3px solid var(--danger);color:#7A1F1F;}
+.awarn{background:var(--warn-bg);border-left:3px solid var(--warn);color:#6B4010;}
+.ainfo{background:var(--info-bg);border-left:3px solid var(--info);color:#1A4A80;}
+.aok{background:var(--ok-bg);border-left:3px solid var(--ok);color:#0B5438;}
+
+.pw{margin-bottom:10px;}
+.plbl{display:flex;justify-content:space-between;font-size:11px;color:var(--fg2);margin-bottom:4px;}
+.pb{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+.pbf{height:100%;border-radius:4px;transition:width .6s ease;}
+.pf-a{background:var(--accent);}
+.pf-b{background:var(--info);}
+.pf-g{background:var(--ok);}
+
+.chk{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border2);cursor:pointer;user-select:none;}
+.chk:last-child{border-bottom:none;}
+.chk:active{background:#F8F6F0;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:6px;}
+.cb{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:background .18s,border-color .18s;}
+.cb.done{background:var(--ok);border-color:var(--ok);}
+.cb.urg{border-color:var(--danger);}
+.ck{color:#fff;font-size:10px;font-weight:700;opacity:0;transition:opacity .15s;}
+.cb.done .ck{opacity:1;}
+.cbody{flex:1;min-width:0;}
+.clbl{font-size:13px;line-height:1.4;color:var(--fg);}
+.clbl.done{text-decoration:line-through;color:var(--fg3);}
+.cnote{font-size:11px;color:var(--fg3);margin-top:2px;}
+.cpr{font-size:13px;font-weight:500;flex-shrink:0;margin-top:1px;}
+.cpr.done{color:var(--fg3);text-decoration:line-through;}
+
+.rtabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.rtab{padding:5px 13px;border:1px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;background:#fff;color:var(--fg2);font-family:'DM Sans',sans-serif;transition:all .15s;}
+.rtab.active{background:var(--fg);color:#fff;border-color:var(--fg);font-weight:600;}
+
+.div{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg3);margin:20px 0 8px;display:flex;align-items:center;gap:10px;}
+.div::after{content:'';flex:1;height:1px;background:var(--border);}
+.dcnt{font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--fg3);}
+
+.hito{background:var(--fg);border-radius:12px;padding:20px 22px;margin-bottom:12px;}
+.heye{font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:4px;}
+.htitle{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;color:#F3F1EB;letter-spacing:-.01em;}
+.hsub{font-size:12px;color:rgba(255,255,255,.32);margin-top:3px;}
+
+@media(max-width:740px){
+  body{display:block;overflow:auto;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{height:100%;min-height:100vh;display:block;}
+  .topbar{display:flex !important;}
+  .content{padding:20px 16px 60px;min-height:calc(100vh - var(--th));overflow:visible;}
+  .stitle{font-size:23px;}
+  .g4{grid-template-columns:1fr 1fr;}
+  .sv{font-size:15px;}
+  .sbox{padding:12px 10px;}
+}
+@media(max-width:420px){
+  .g3{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-name">Don Pelayo</div>
+    <div class="sb-sub">Vivienda 2ºE · Parking 17 · Trastero 2<br>Fuensalida, Toledo</div>
+    <div class="sb-tag">⏳ Entrega: Fin junio 2026</div>
+  </div>
+  <nav class="sb-nav">
+    <!-- Inicio: círculo con punto central -->
+    <div class="nav-item active" data-sec="inicio">
+      <span class="nav-icon">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="8.5" cy="8.5" r="2" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+      </span>
+      <span>Inicio</span>
+    </div>
+    <!-- Vivienda: casa -->
+    <div class="nav-item" data-sec="vivienda">
+      <span class="nav-icon">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.5 8L8.5 2L15.5 8V15H11V10.5H6V15H1.5V8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>Vivienda</span>
+    </div>
+    <!-- Financiación: símbolo € con líneas -->
+    <div class="nav-item" data-sec="financiacion">
+      <span class="nav-icon">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4.5C11 3.5 9.8 3 8.5 3C5.7 3 3.5 5.2 3.5 8C3.5 10.8 5.7 13 8.5 13C9.8 13 11 12.5 12 11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="2.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="2.5" y1="9.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span>Financiación</span>
+    </div>
+    <!-- Compras: lavadora -->
+    <div class="nav-item" data-sec="compras">
+      <span class="nav-icon">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1.5" y="1.5" width="14" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <line x1="1.5" y1="5" x2="15.5" y2="5" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="3.8" cy="3.3" r="0.8" fill="currentColor"/>
+          <circle cx="6.2" cy="3.3" r="0.8" fill="currentColor"/>
+          <circle cx="8.5" cy="10.5" r="3" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="8.5" cy="10.5" r="1.1" stroke="currentColor" stroke-width="1"/>
+        </svg>
+      </span>
+      <span>Compras</span>
+    </div>
+    <!-- Planning: reloj -->
+    <div class="nav-item" data-sec="planning">
+      <span class="nav-icon">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8.5" cy="9" r="6.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M8.5 5.5V9L11 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>Planning</span>
+      <span class="nav-badge" id="nbp" style="display:none">0</span>
+    </div>
+    <!-- Trámites: documento con check -->
+    <div class="nav-item" data-sec="tramites">
+      <span class="nav-icon">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 2H10.5L13.5 5V15H4V2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M10 2V5.5H13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M6.5 10L8 11.5L11 8.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span>Trámites</span>
+    </div>
+  </nav>
+  <div class="sb-footer">
+    <div class="sbp"><div class="sbpl"><span>Tareas</span><span id="sbtp">0%</span></div><div class="sbpb"><div class="sbpf" id="sbtb" style="width:0%"></div></div></div>
+    <div class="sbp"><div class="sbpl"><span>Compras</span><span id="sbsp">0%</span></div><div class="sbpb"><div class="sbpf" id="sbsb" style="width:0%"></div></div></div>
+    <div class="sb-sync" id="sbsync">Cargando…</div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);">
+      <div style="font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.05em;text-transform:uppercase;">Crafted by</div>
+      <div style="font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.28);letter-spacing:.02em;margin-top:1px;">Yakoba Moreno</div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="main">
+  <div class="topbar" id="topbar">
+    <button class="hbg" id="hbg" type="button" aria-label="Menú"><span></span><span></span><span></span></button>
+    <span class="tbtitle" id="tbt">Inicio</span>
+  </div>
+  <div class="content" id="content">
+
+    <!-- INICIO -->
+    <div class="section active" id="sec-inicio">
+      <div class="sheader">
+        <div class="eyebrow">Proyecto Vivienda · Alejandro, 24 años</div>
+        <div class="stitle">Panel de<br>Control</div>
+        <div class="ssub">Residencial Don Pelayo · 2ºE · Fuensalida, Toledo</div>
+      </div>
+      <div id="inicio-alert"></div>
+      <div class="g2">
+        <div class="sbox"><div class="sv" id="itd">—</div><div class="sl">tareas completadas</div></div>
+        <div class="sbox"><div class="sv" id="isd">—</div><div class="sl">compras realizadas</div></div>
+      </div>
+      <div class="card" style="padding:16px 20px">
+        <div class="pw"><div class="plbl"><span>Progreso tareas</span><span id="itpct">0%</span></div><div class="pb"><div class="pbf pf-a" id="itbar" style="width:0%"></div></div></div>
+        <div class="pw" style="margin-bottom:0"><div class="plbl"><span>Presupuesto comprometido</span><span id="ispct">0%</span></div><div class="pb"><div class="pbf pf-b" id="isbar" style="width:0%"></div></div></div>
+      </div>
+      <div class="g3">
+        <div class="sbox"><div class="sv">115.010 €</div><div class="sl">precio total (IVA incl.)</div></div>
+        <div class="sbox"><div class="sv" style="color:var(--info)">~131.103 €</div><div class="sl">tasación mínima necesaria</div></div>
+        <div class="sbox"><div class="sv" style="color:var(--accent)">14.169 €</div><div class="sl">presupuesto muebles</div></div>
+      </div>
+      <div class="div">Próximos hitos</div>
+      <div class="hito">
+        <div class="heye">Hito 0 — Bloqueante</div>
+        <div class="htitle">⚖️ Firma de escrituras ante notario</div>
+        <div class="hsub">Suministros, seguro de hogar y trámites administrativos quedan bloqueados hasta este momento</div>
+      </div>
+      <div class="card al">
+        <div class="ctitle">Acciones críticas esta semana</div>
+        <div class="dr"><span>Pedir muebles cocina IKEA (lead time 8–12 sem.)</span><span class="badge bdanger">Urgente</span></div>
+        <div class="dr"><span>Pedir armario dormitorio IKEA (lead time 8–12 sem.)</span><span class="badge bdanger">Urgente</span></div>
+        <div class="dr"><span>Solicitar tasación a ING (objetivo ≥ 131.103 €)</span><span class="badge bdanger">Urgente</span></div>
+        <div class="dr"><span>Confirmar saldo exacto crédito personal</span><span class="badge bwarn">Pendiente</span></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Estado de pagos al promotor</div>
+        <div class="dr"><span>Reserva</span><span class="drv"><span class="badge bok" style="margin-right:5px">✓</span>3.000 €</span></div>
+        <div class="dr"><span>Contrato (15%)</span><span class="drv"><span class="badge bok" style="margin-right:5px">✓</span>14.251 €</span></div>
+        <div class="dr"><span>Durante obra (15%)</span><span class="drv"><span class="badge bok" style="margin-right:5px">✓</span>17.251 €</span></div>
+        <div class="dr"><span>Escrituras (70%) → hipoteca ING</span><span class="drv"><span class="badge bwarn" style="margin-right:5px">Hito 0</span>80.507 €</span></div>
+        <div class="dr"><span>Deudas a cancelar el día de escrituras</span><span class="drv" style="color:var(--danger)">~27.372 €</span></div>
+      </div>
+    </div>
+
+    <!-- VIVIENDA -->
+    <div class="section" id="sec-vivienda">
+      <div class="sheader">
+        <div class="eyebrow">Residencial Don Pelayo</div>
+        <div class="stitle">Vivienda<br>2ºE</div>
+        <div class="ssub">52,17 m² útiles · 2 dormitorios · 1 baño · Parking 17 · Trastero 2</div>
+      </div>
+      <div class="g4">
+        <div class="sbox"><div class="sv">52,17</div><div class="sl">m² útiles totales</div></div>
+        <div class="sbox"><div class="sv">59,40</div><div class="sl">m² construidos</div></div>
+        <div class="sbox"><div class="sv">66,92</div><div class="sl">m² con zonas comunes</div></div>
+        <div class="sbox"><div class="sv">2+1</div><div class="sl">dorms + baño</div></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Distribución de estancias</div>
+        <div class="dr"><span>🛋️ Salón – Cocina</span><span class="drv">24,4 m²</span></div>
+        <div class="dr"><span>🛏️ Dormitorio principal</span><span class="drv">13,83 m²</span></div>
+        <div class="dr"><span>🛏️ Dormitorio 2</span><span class="drv">7,31 m²</span></div>
+        <div class="dr"><span>💻 Sala / Despacho</span><span class="drv">7,4 m²</span></div>
+        <div class="dr"><span>🚿 Baño</span><span class="drv">4,97 m²</span></div>
+        <div class="dr"><span>🚪 Distribuidor / Entrada</span><span class="drv">3,48 m²</span></div>
+        <div class="dr"><span>🌿 Balcón</span><span class="drv">1,7 m²</span></div>
+        <div class="dr"><span>👕 Tendedero</span><span class="drv">2,05 m²</span></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Medidas clave para compras</div>
+        <div class="dr"><span>Ancho salón-cocina (libre)</span><span class="drv">5,75 m · fondo 3,33 m</span></div>
+        <div class="dr"><span>Columna / pilar central salón</span><span class="drv">⚠️ 0,42 m</span></div>
+        <div class="dr"><span>Sala / despacho (interior libre)</span><span class="drv">3,35 × 1,92 m</span></div>
+        <div class="dr"><span>Balcón (profundidad útil)</span><span class="drv">0,90 m</span></div>
+      </div>
+      <div class="div">Beneficios fiscales · Alejandro, 24 años</div>
+      <div class="card">
+        <div class="dr"><span><span class="badge bok" style="margin-right:6px">✓ Confirmado</span>AJD reducido al 0,25% en escritura hipoteca</span><span class="drv" style="color:var(--ok)">~320 € ahorro</span></div>
+        <div class="dr"><span><span class="badge binfo" style="margin-right:6px">Desde empadr.</span>Deducción IRPF autonómica CLM</span><span class="drv">Hasta 500 €/año</span></div>
+        <div class="dr"><span><span class="badge bdanger" style="margin-right:6px">Bloqueado</span>Préstamo 0% CLM — requiere 2 años empadronado en CLM</span><span class="drv" style="color:var(--fg3)">Hasta 48.000 €</span></div>
+      </div>
+    </div>
+
+    <!-- FINANCIACIÓN -->
+    <div class="section" id="sec-financiacion">
+      <div class="sheader">
+        <div class="eyebrow">Banco ING · Modalidad Normal · 95%</div>
+        <div class="stitle">Plan de<br>Financiación</div>
+        <div class="ssub">Total vivienda 115.010,50 € (IVA 10% incluido)</div>
+      </div>
+      <div class="g3">
+        <div class="sbox"><div class="sv">95%</div><div class="sl">Financiación ING</div></div>
+        <div class="sbox"><div class="sv" style="color:var(--info)">109.260 €</div><div class="sl">Hipoteca base (95%)</div></div>
+        <div class="sbox"><div class="sv" style="color:var(--warn)">131.103 €</div><div class="sl">Tasación mínima necesaria</div></div>
+      </div>
+      <div class="alert ainfo">💡 Para que el 95% de ING cubra todo, la vivienda debe tasarse en <strong>mínimo 131.103 €</strong> (+13,9% sobre precio de compra). Confirmar con el tasador antes de firmar la oferta vinculante.</div>
+      <div class="card">
+        <div class="ctitle">Precio de compra</div>
+        <div class="dr"><span>Vivienda 2ºE</span><span class="drv">102.910,50 €</span></div>
+        <div class="dr"><span>Garaje nº 17</span><span class="drv">8.250,00 €</span></div>
+        <div class="dr"><span>Trastero nº 2</span><span class="drv">3.850,00 €</span></div>
+        <div class="dr tot bold"><span>Total (IVA 10% incluido)</span><span class="drv">115.010,50 €</span></div>
+      </div>
+      <div class="card">
+        <div class="ctitle">Pagos al promotor</div>
+        <div class="dr"><span><span class="badge bok" style="margin-right:6px">✓</span>Reserva</span><span class="drv">3.000,00 €</span></div>
+        <div class="dr"><span><span class="badge bok" style="margin-right:6px">✓</span>Contrato (15% − reserva)</span><span class="drv">14.251,58 €</span></div>
+        <div class="dr"><span><span class="badge bok" style="margin-right:6px">✓</span>Durante obra (15% recibos)</span><span class="drv">17.251,58 €</span></div>
+        <div class="dr bold"><span><span class="badge bwarn" style="margin-right:6px">Hito 0</span>Escrituras — 70%</span><span class="drv">80.507,35 €</span></div>
+      </div>
+      <div class="div">Deudas a cancelar el día de escrituras</div>
+      <div class="card">
+        <div class="dr"><span>Crédito personal (saldo estimado junio 2026)</span><span class="drv" style="color:var(--danger)">~11.372 €</span></div>
+        <div class="dr muted"><span style="padding-left:10px">Original 14.000 € · 292 €/mes desde oct 2025 · ~9 cuotas pagadas</span></div>
+        <div class="dr"><span>Préstamo abuela</span><span class="drv">10.000,00 €</span></div>
+        <div class="dr"><span>Préstamo Eva</span><span class="drv">4.000,00 €</span></div>
+        <div class="dr"><span>Préstamo padre</span><span class="drv">2.000,00 €</span></div>
+        <div class="dr tot bold"><span>Total deudas</span><span class="drv" style="color:var(--danger)">~27.372 €</span></div>
+      </div>
+      <div class="div">Hipoteca — Lo que debe cubrir</div>
+      <div class="card">
+        <div class="dr"><span>Pago escrituras (70%)</span><span class="drv">80.507,35 €</span></div>
+        <div class="dr"><span>Cancelación crédito personal</span><span class="drv">~11.372,00 €</span></div>
+        <div class="dr"><span>Devolución préstamos familiares</span><span class="drv">16.000,00 €</span></div>
+        <div class="dr"><span>Muebles y electrodomésticos</span><span class="drv">14.169,00 €</span></div>
+        <div class="dr"><span>Gastos hipoteca (notaría, registro, gestoría, AJD)</span><span class="drv">~2.500,00 €</span></div>
+        <div class="dr tot bold"><span>TOTAL necesario</span><span class="drv" style="color:var(--info)">~124.548 €</span></div>
+      </div>
+    </div>
+
+    <!-- COMPRAS -->
+    <div class="section" id="sec-compras">
+      <div class="sheader">
+        <div class="eyebrow">Presupuesto total · 14.169 €</div>
+        <div class="stitle">Lista de<br>Compras</div>
+        <div class="ssub">Marcar cada artículo al realizar el pedido</div>
+      </div>
+      <div class="g3" id="shop-stats"></div>
+      <div class="pw"><div class="plbl"><span>Presupuesto comprometido</span><span id="shpct">0%</span></div><div class="pb"><div class="pbf pf-b" id="shpb" style="width:0%"></div></div></div>
+      <div id="shurg"></div>
+      <div class="rtabs" id="rtabs"></div>
+      <div class="card" id="shlist" style="padding:8px 16px;"></div>
+    </div>
+
+    <!-- PLANNING -->
+    <div class="section" id="sec-planning">
+      <div class="sheader">
+        <div class="eyebrow">Timeline del proyecto</div>
+        <div class="stitle">Planning</div>
+        <div class="ssub">Tareas cronológicas · Entrega: fin junio 2026</div>
+      </div>
+      <div class="alert adanger">🔴 Estamos en <strong>mayo 2026</strong>. La entrega es en semanas. Cada tarea urgente sin completar bloquea el proceso.</div>
+      <div id="plancont"></div>
+    </div>
+
+    <!-- TRÁMITES -->
+    <div class="section" id="sec-tramites">
+      <div class="sheader">
+        <div class="eyebrow">Administrativo y suministros</div>
+        <div class="stitle">Trámites</div>
+        <div class="ssub">Los marcados con 🔒 solo pueden iniciarse tras la firma de escrituras</div>
+      </div>
+      <div class="alert awarn">🔒 Suministros y trámites administrativos <strong>bloqueados</strong> hasta firma de escrituras. Prepara la documentación con antelación.</div>
+      <div id="tramcont"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const SK='dp-v5';
+let ST={},curRoom='Cocina',curSec='inicio';
+
+const SHOP=[
+  {id:'s1',room:'Salón',d:'Sofá (994.405.85)',store:'IKEA',p:799},
+  {id:'s2',room:'Salón',d:'Mueble TV (794.377.63)',store:'IKEA',p:370},
+  {id:'s3',room:'Salón',d:'TV 65" (1598368)',store:'MediaMarkt',p:947},
+  {id:'s4',room:'Salón',d:'Sistema sonido 5.1 (1601513)',store:'MediaMarkt',p:469},
+  {id:'s5',room:'Salón',d:'Mesa comedor (996.082.35)',store:'IKEA',p:129},
+  {id:'s6',room:'Salón',d:'Sillas comedor ×4 (096.084.71)',store:'IKEA',p:140},
+  {id:'s7',room:'Salón',d:'Cuadros ×2 (204.798.68)',store:'IKEA',p:70},
+  {id:'s8',room:'Salón',d:'Estor translúcido (203.144.67)',store:'IKEA',p:45},
+  {id:'s9',room:'Salón',d:'Planta grande + alfombra',store:'IKEA',p:139},
+  {id:'h1',room:'Habitación',d:'Cama (195.448.03)',store:'IKEA',p:768,urg:true},
+  {id:'h2',room:'Habitación',d:'Armario empotrado (095.029.88)',store:'IKEA',p:1099,urg:true},
+  {id:'h3',room:'Habitación',d:'Mesillas ×2 (693.293.87)',store:'IKEA',p:100},
+  {id:'h4',room:'Habitación',d:'Cómoda (903.092.45)',store:'IKEA',p:100},
+  {id:'h5',room:'Habitación',d:'TV 45" (1598327)',store:'MediaMarkt',p:399},
+  {id:'h6',room:'Habitación',d:'Espejo grande (103.203.17)',store:'IKEA',p:50},
+  {id:'h7',room:'Habitación',d:'Estor translúcido + cuadros',store:'IKEA',p:85},
+  {id:'c1',room:'Cocina',d:'Muebles cocina a medida',store:'IKEA',p:2510,urg:true},
+  {id:'c2',room:'Cocina',d:'Frigorífico (1566942)',store:'MediaMarkt',p:749},
+  {id:'c3',room:'Cocina',d:'Lavadora (1605899)',store:'MediaMarkt',p:377},
+  {id:'c4',room:'Cocina',d:'Lavavajillas (1588529)',store:'MediaMarkt',p:379},
+  {id:'c5',room:'Cocina',d:'Vitrocerámica (143515147)',store:'MediaMarkt',p:209},
+  {id:'c6',room:'Cocina',d:'Campana extractora (99586917)',store:'MediaMarkt',p:85},
+  {id:'c7',room:'Cocina',d:'Horno (1601063)',store:'MediaMarkt',p:399},
+  {id:'c8',room:'Cocina',d:'Microondas (85951584)',store:'MediaMarkt',p:129},
+  {id:'c9',room:'Cocina',d:'Cafetera (1373202)',store:'MediaMarkt',p:102},
+  {id:'c10',room:'Cocina',d:'Menaje básico (vajilla, cubiertos, sartenes, ollas)',store:'IKEA',p:242},
+  {id:'d1',room:'Sala/Despacho',d:'Mesa escritorio (395.913.51)',store:'IKEA',p:229},
+  {id:'d2',room:'Sala/Despacho',d:'Silla trabajo (702.611.50)',store:'IKEA',p:159},
+  {id:'d3',room:'Sala/Despacho',d:'Cajonera (902.130.78)',store:'IKEA',p:59},
+  {id:'d4',room:'Sala/Despacho',d:'PC (134377292)',store:'MediaMarkt',p:880},
+  {id:'d5',room:'Sala/Despacho',d:'Monitor (1471159)',store:'MediaMarkt',p:900},
+  {id:'d6',room:'Sala/Despacho',d:'Teclado + ratón + cascos',store:'MediaMarkt',p:249},
+  {id:'d7',room:'Sala/Despacho',d:'Altavoces escritorio (1568771)',store:'MediaMarkt',p:99},
+  {id:'d8',room:'Sala/Despacho',d:'Librería + cortinas',store:'IKEA',p:130},
+  {id:'b1',room:'Baño',d:'Altavoz impermeable (1573858)',store:'MediaMarkt',p:249},
+  {id:'b2',room:'Baño',d:'Accesorios baño + toallas + espejo',store:'IKEA',p:88},
+  {id:'o1',room:'Otros',d:'Estanterías trastero (82131425)',store:'Leroy Merlin',p:195},
+  {id:'o2',room:'Otros',d:'Tendedero + planta entrada + espejo + estante',store:'IKEA',p:119},
+];
+const TSOP=14169;
+const ROOMS=['Cocina','Salón','Habitación','Sala/Despacho','Baño','Otros'];
+const RI={Salón:'🛋️',Habitación:'🛏️',Cocina:'🍳','Sala/Despacho':'💻',Baño:'🚿',Otros:'📦'};
+const SC={IKEA:'#0051A2',MediaMarkt:'#CC0000','Leroy Merlin':'#3d7a00'};
+
+const TASKS=[
+  {id:'t1',g:'urgente',l:'Pedir muebles cocina IKEA (2.510 €)',n:'⏱ Lead time 8–12 semanas — pedir esta semana'},
+  {id:'t2',g:'urgente',l:'Pedir armario dormitorio IKEA (1.099 €)',n:'⏱ Lead time 8–12 semanas — pedir esta semana'},
+  {id:'t3',g:'urgente',l:'Solicitar tasación a ING — objetivo ≥ 131.103 €',n:'Clave para el importe final de hipoteca'},
+  {id:'t4',g:'urgente',l:'Confirmar saldo exacto crédito personal',n:'Cada cuota pagada reduce la hipoteca necesaria'},
+  {id:'t5',g:'urgente',l:'Reservar empresa de montaje de muebles',n:'Los buenos montadores se reservan con meses de antelación'},
+  {id:'t6',g:'hipoteca',l:'Confirmar condiciones definitivas hipoteca con ING'},
+  {id:'t7',g:'hipoteca',l:'Resultado tasación recibido y validado'},
+  {id:'t8',g:'hipoteca',l:'Firma oferta vinculante hipoteca'},
+  {id:'t9',g:'preesc',l:'Confirmar fecha escrituras con notaría'},
+  {id:'t10',g:'preesc',l:'Revisar borrador escrituras con gestoría o asesor'},
+  {id:'t11',g:'hito',l:'⚖️ HITO 0 — Firma escrituras ante notario'},
+  {id:'t12',g:'deudas',l:'Cancelación crédito personal (~11.372 €)',n:'El mismo día de escrituras'},
+  {id:'t13',g:'deudas',l:'Devolución préstamo abuela (10.000 €)',n:'El mismo día de escrituras'},
+  {id:'t14',g:'deudas',l:'Devolución préstamo Eva (4.000 €)',n:'El mismo día de escrituras'},
+  {id:'t15',g:'deudas',l:'Devolución préstamo padre (2.000 €)',n:'El mismo día de escrituras'},
+  {id:'t16',g:'montaje',l:'Recepción e instalación cocina IKEA + encimera'},
+  {id:'t17',g:'montaje',l:'Instalación electrodomésticos empotrados (horno, campana)'},
+  {id:'t18',g:'montaje',l:'Montaje armario dormitorio'},
+  {id:'t19',g:'montaje',l:'Entrega y montaje resto muebles IKEA'},
+  {id:'t20',g:'montaje',l:'Entrega y conexión electrodomésticos MediaMarkt'},
+  {id:'t21',g:'montaje',l:'Instalación TV y sistemas de sonido'},
+  {id:'t22',g:'meta',l:'🏠 ¡Vivienda lista y habitable!'},
+];
+const TGS=[
+  {id:'urgente',label:'⚡ Esta semana — Urgente',ac:'var(--danger)'},
+  {id:'hipoteca',label:'🏦 Hipoteca ING',ac:'var(--warn)'},
+  {id:'preesc',label:'📋 Pre-escrituras',ac:'var(--info)'},
+  {id:'hito',label:'⚖️ HITO 0 — Firma escrituras',ac:'var(--accent)',dark:true},
+  {id:'deudas',label:'💸 Cancelación de deudas',ac:'var(--ok)'},
+  {id:'montaje',label:'🔧 Montaje e instalación',ac:'#BA7517'},
+  {id:'meta',label:'🎉 Vivienda habitable',ac:'var(--ok)',dark:true},
+];
+const TRAM=[
+  {id:'tr1',g:'deud2',l:'Cancelar crédito personal (~11.372 €)',n:'El mismo día de la firma'},
+  {id:'tr2',g:'deud2',l:'Devolver préstamos familiares (16.000 €)',n:'El mismo día de la firma'},
+  {id:'tr3',g:'sumi',l:'Alta suministro eléctrico (cambio de titular)'},
+  {id:'tr4',g:'sumi',l:'Alta suministro agua'},
+  {id:'tr5',g:'sumi',l:'Alta gas (si aplica)'},
+  {id:'tr6',g:'sumi',l:'Contratar fibra / internet'},
+  {id:'tr7',g:'sumi',l:'Seguro de hogar (obligatorio con hipoteca)'},
+  {id:'tr8',g:'adm',l:'Empadronamiento en Fuensalida (Toledo)'},
+  {id:'tr9',g:'adm',l:'Cambio de domicilio en el DNI'},
+  {id:'tr10',g:'adm',l:'Actualización de domicilio en la DGT'},
+  {id:'tr11',g:'adm',l:'Cambio de domicilio en la Seguridad Social'},
+  {id:'tr12',g:'adm',l:'Cambio de domicilio en el banco'},
+  {id:'tr13',g:'adm',l:'Actualizar seguros (médico, vida, etc.)'},
+];
+const TRGS=[
+  {id:'deud2',label:'💸 Cancelación de deudas',block:false},
+  {id:'sumi', label:'⚡ Suministros',block:true},
+  {id:'adm',  label:'📝 Administrativo',block:true},
+];
+
+// Storage (Claude artifact = shared; standalone = localStorage)
+async function sGet(k){
+  if(typeof window.storage!=='undefined'){try{const r=await window.storage.get(k,true);if(r)return r.value;}catch(e){}}
+  try{return localStorage.getItem(k);}catch(e){return null;}
+}
+async function sSet(k,v){
+  if(typeof window.storage!=='undefined'){try{await window.storage.set(k,v,true);}catch(e){}}
+  try{localStorage.setItem(k,v);}catch(e){}
+}
+
+async function load(){
+  try{const r=await sGet(SK);if(r)ST=JSON.parse(r);}catch(e){ST={};}
+  render();
+  const s=document.getElementById('sbsync');
+  if(s)s.textContent='✓ Listo · '+(typeof window.storage!=='undefined'?'compartido en tiempo real':'guardado localmente');
+}
+
+let saveT=null;
+function save(){
+  clearTimeout(saveT);
+  saveT=setTimeout(async()=>{
+    try{
+      await sSet(SK,JSON.stringify(ST));
+      const t=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+      const s=document.getElementById('sbsync');
+      if(s)s.textContent='✓ Guardado · '+t;
+    }catch(e){}
+  },350);
+}
+
+function toggle(key){
+  ST[key]=!ST[key];
+  save();
+  renderStats();
+  renderInicio();
+  if(key.startsWith('s_'))renderShop();
+  if(key.startsWith('t_'))renderPlan();
+  if(key.startsWith('tr_'))renderTram();
+}
+
+// Nav
+const STIT={inicio:'Inicio',vivienda:'Vivienda',financiacion:'Financiación',compras:'Compras',planning:'Planning',tramites:'Trámites'};
+function gotoSec(sec){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const s=document.getElementById('sec-'+sec);
+  if(s)s.classList.add('active');
+  const n=document.querySelector('[data-sec="'+sec+'"]');
+  if(n)n.classList.add('active');
+  const t=document.getElementById('tbt');
+  if(t)t.textContent=STIT[sec]||sec;
+  curSec=sec;
+  closeSb();
+  const c=document.getElementById('content');
+  if(c)c.scrollTop=0;
+}
+let sbOpen=false;
+function toggleSb(){sbOpen=!sbOpen;document.getElementById('sidebar').classList.toggle('open',sbOpen);document.getElementById('hbg').classList.toggle('open',sbOpen);document.getElementById('overlay').classList.toggle('show',sbOpen);}
+function closeSb(){sbOpen=false;document.getElementById('sidebar').classList.remove('open');document.getElementById('hbg').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+
+// Helpers
+const eu=n=>n.toLocaleString('es-ES',{minimumFractionDigits:0,maximumFractionDigits:0})+' €';
+const pct=(a,b)=>b>0?Math.min(100,Math.round(a/b*100)):0;
+const $=id=>document.getElementById(id);
+function sbox(v,l,c){return`<div class="sbox"><div class="sv" style="color:${c||'var(--fg)'}">${v}</div><div class="sl">${l}</div></div>`;}
+function shopSpent(){return SHOP.filter(i=>ST['s_'+i.id]).reduce((a,i)=>a+i.p,0);}
+function urgPend(){return TASKS.filter(t=>t.g==='urgente'&&!ST['t_'+t.id]).length;}
+
+function renderStats(){
+  const td=TASKS.filter(t=>ST['t_'+t.id]).length,tt=TASKS.length;
+  const sd=SHOP.filter(i=>ST['s_'+i.id]).length,ss=SHOP.length;
+  const sp=shopSpent(),tp=pct(td,tt),spp=pct(sp,TSOP);
+  // sidebar
+  const sbtp=$('sbtp');if(sbtp)sbtp.textContent=tp+'%';
+  const sbtb=$('sbtb');if(sbtb)sbtb.style.width=tp+'%';
+  const sbsp=$('sbsp');if(sbsp)sbsp.textContent=pct(sd,ss)+'%';
+  const sbsb=$('sbsb');if(sbsb)sbsb.style.width=pct(sd,ss)+'%';
+  // badge
+  const u=urgPend(),bp=$('nbp');if(bp){bp.textContent=u;bp.style.display=u>0?'flex':'none';}
+  // inicio
+  const itd=$('itd');if(itd)itd.textContent=td+' / '+tt;
+  const isd=$('isd');if(isd)isd.textContent=sd+' / '+ss;
+  const itpct=$('itpct');if(itpct)itpct.textContent=tp+'%';
+  const itbar=$('itbar');if(itbar)itbar.style.width=tp+'%';
+  const ispct=$('ispct');if(ispct)ispct.textContent=spp+'%';
+  const isbar=$('isbar');if(isbar)isbar.style.width=spp+'%';
+  // compras stats
+  const ss2=$('shop-stats');if(ss2)ss2.innerHTML=sbox(sd+'/'+ss,'artículos pedidos','var(--info)')+sbox(eu(sp),'comprometido','var(--ok)')+sbox(eu(TSOP-sp),'pendiente de pedir','var(--warn)');
+  const shpct=$('shpct');if(shpct)shpct.textContent=spp+'%';
+  const shpb=$('shpb');if(shpb)shpb.style.width=spp+'%';
+}
+
+function renderInicio(){
+  const u=urgPend(),a=$('inicio-alert');
+  if(!a)return;
+  a.innerHTML=u>0?`<div class="alert adanger">🚨 <strong>${u} tarea${u>1?'s':''} urgente${u>1?'s':''} pendiente${u>1?'s':''}.</strong> Los muebles IKEA con lead time largo deben pedirse esta semana.</div>`:`<div class="alert aok">✅ <strong>¡Sin urgencias pendientes!</strong> El proyecto avanza correctamente.</div>`;
+}
+
+function renderShop(){
+  renderStats();
+  const rt=$('rtabs');
+  if(rt)rt.innerHTML=ROOMS.map(r=>{
+    const its=SHOP.filter(i=>i.room===r),dn=its.filter(i=>ST['s_'+i.id]).length;
+    return`<div class="rtab${r===curRoom?' active':''}" onclick="setRoom('${r}')">${RI[r]} ${r} <span style="opacity:.5">(${dn}/${its.length})</span></div>`;
+  }).join('');
+  const urg=SHOP.filter(i=>i.urg&&!ST['s_'+i.id]),ua=$('shurg');
+  if(ua)ua.innerHTML=urg.length?`<div class="alert adanger">🚨 <strong>Sin pedir (urgente):</strong> ${urg.map(i=>i.d).join(' · ')}</div>`:'';
+  const sl=$('shlist');if(!sl)return;
+  const its=SHOP.filter(i=>i.room===curRoom);
+  if(!its.length){sl.innerHTML='<div style="padding:14px 0;color:var(--fg3);font-size:13px;text-align:center">Sin artículos</div>';return;}
+  sl.innerHTML=its.map(item=>{
+    const done=!!ST['s_'+item.id],cc=SC[item.store]||'var(--fg2)';
+    return`<div class="chk" onclick="toggle('s_${item.id}')"><div class="cb${done?' done':''}${item.urg&&!done?' urg':''}"><span class="ck">✓</span></div><div class="cbody"><div class="clbl${done?' done':''}">${item.urg&&!done?'<span style="color:var(--danger);margin-right:3px">🚨</span>':''}${item.d}</div><div class="cnote" style="color:${cc};font-weight:600">${item.store}</div></div><div class="cpr${done?' done':''}">${item.p.toLocaleString('es-ES')} €</div></div>`;
+  }).join('');
+}
+function setRoom(r){curRoom=r;renderShop();}
+
+function renderPlan(){
+  const c=$('plancont');if(!c)return;
+  c.innerHTML=TGS.map(g=>{
+    const its=TASKS.filter(t=>t.g===g.id),dn=its.filter(t=>ST['t_'+t.id]).length;
+    const rows=its.map(t=>{
+      const on=!!ST['t_'+t.id],isU=t.g==='urgente';
+      return`<div class="chk" onclick="toggle('t_${t.id}')"><div class="cb${on?' done':''}${isU&&!on?' urg':''}"><span class="ck">✓</span></div><div class="cbody"><div class="clbl${on?' done':''}" style="${g.dark&&!on?'color:#F3F1EB':''}">${t.l}</div>${t.n?`<div class="cnote">${t.n}</div>`:''}</div>${on?`<span class="badge bok" style="flex-shrink:0">✓</span>`:isU?`<span class="badge bdanger" style="flex-shrink:0">Urgente</span>`:''}</div>`;
+    }).join('');
+    const wrap=g.dark?`<div class="hito">${rows}</div>`:`<div class="card" style="padding:6px 16px">${rows}</div>`;
+    return`<div class="div" style="color:${g.ac}">${g.label}<span class="dcnt" style="margin-left:8px">${dn}/${its.length}</span></div>${wrap}`;
+  }).join('');
+}
+
+function renderTram(){
+  const c=$('tramcont');if(!c)return;
+  const allT=TRAM.length,dnT=TRAM.filter(t=>ST['tr_'+t.id]).length;
+  let html=`<div class="g2" style="margin-bottom:12px">${sbox(dnT+'/'+allT,'trámites completados')}${sbox(allT-dnT,'pendientes',allT-dnT>0?'var(--warn)':'var(--ok)')}</div>`;
+  html+=TRGS.map(g=>{
+    const its=TRAM.filter(t=>t.g===g.id),dn=its.filter(t=>ST['tr_'+t.id]).length;
+    const bk=g.block?`<span class="badge bwarn" style="margin-left:6px;font-size:10px">🔒 Solo tras escrituras</span>`:'';
+    const rows=its.map(t=>{
+      const on=!!ST['tr_'+t.id];
+      return`<div class="chk" onclick="toggle('tr_${t.id}')"><div class="cb${on?' done':''}"><span class="ck">✓</span></div><div class="cbody"><div class="clbl${on?' done':''}">${t.l}</div>${t.n?`<div class="cnote">${t.n}</div>`:''}</div>${on?`<span class="badge bok" style="flex-shrink:0">✓ Hecho</span>`:g.block?`<span class="badge bwarn" style="flex-shrink:0">Bloqueado</span>`:''}</div>`;
+    }).join('');
+    return`<div class="div">${g.label}${bk}<span class="dcnt" style="margin-left:8px">${dn}/${its.length}</span></div><div class="card" style="padding:6px 16px">${rows}</div>`;
+  }).join('');
+  c.innerHTML=html;
+}
+
+function render(){renderStats();renderInicio();renderShop();renderPlan();renderTram();}
+
+// Init — event listeners robustos para móvil
+window.addEventListener('DOMContentLoaded',function(){
+  // Nav items click/touch
+  document.querySelectorAll('.nav-item').forEach(function(item){
+    function go(e){e.preventDefault();gotoSec(item.getAttribute('data-sec'));}
+    item.addEventListener('click',go);
+    item.addEventListener('touchend',go);
+  });
+  // Hamburger
+  const hbg=$('hbg');
+  if(hbg){
+    hbg.addEventListener('click',function(e){e.stopPropagation();toggleSb();});
+    hbg.addEventListener('touchend',function(e){e.preventDefault();e.stopPropagation();toggleSb();});
+  }
+  // Overlay
+  const ov=$('overlay');
+  if(ov){
+    ov.addEventListener('click',closeSb);
+    ov.addEventListener('touchend',function(e){e.preventDefault();closeSb();});
+  }
+  load();
+});
+</script>
+</body>
+</html>
